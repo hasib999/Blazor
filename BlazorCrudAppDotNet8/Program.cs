@@ -1,11 +1,16 @@
 using BlazorCrudAppDotNet8.Components;
+using BlazorCrudAppDotNet8.Data;
+using BlazorCrudAppDotNet8.Service;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IVideoGameService, VideoGameService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
